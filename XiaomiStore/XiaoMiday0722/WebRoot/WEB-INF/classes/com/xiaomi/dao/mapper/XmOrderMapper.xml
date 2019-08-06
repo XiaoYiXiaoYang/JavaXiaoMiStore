@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaomi.dao.mapper.XmOrderMapper">
+
+ <insert id="InsertOrder" parameterType="com.xiaomi.dao.vo.XmOrder">
+ 	insert into xmorder values(#{order_id},#{uid},#{cart_id},#{order_status},#{create_time})
+ </insert>
+ 
+ <delete id="DeleteOrder" parameterType="int">
+ 	delete from xmorder where order_id=#{order_id}
+ </delete>
+ 
+ <select id="selectOneOrder" parameterType="int" resultType="com.xiaomi.dao.vo.XmOrder">
+ 	select * from xmorder where order_id=#{order_id}
+ </select>
+ 
+ <select id="selectOrdersByUid" parameterType="int" resultType="com.xiaomi.dao.vo.XmOrder">
+ 	select * from xmorder where uid=#{uid}
+ </select>
+ 
+ <update id="UpdateOrder" parameterType="com.xiaomi.dao.vo.XmOrder" >
+ 	update xmorder set cart_id=#{cart_id} where uid=#{uid} AND order_status=#{order_status} AND create_time=#{create_time}
+ </update>
+ 
+ <update id="UpdateOrder_status" parameterType="com.xiaomi.dao.vo.XmOrder" >
+ 	update xmorder set order_status=#{order_status} where order_id=#{order_id}
+ </update>
+ 
+  <select id="selectOneorder" parameterType="com.xiaomi.dao.vo.XmOrder" resultType="int">
+ 	select order_id from xmorder where uid=#{uid} AND order_status=#{order_status} AND create_time=#{create_time}
+ </select>
+ 
+ </mapper>

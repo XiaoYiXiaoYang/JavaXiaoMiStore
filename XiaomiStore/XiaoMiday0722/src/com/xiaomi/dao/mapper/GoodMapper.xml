@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaomi.dao.mapper.GoodMapper">
+ 
+ <insert id="InsertGood" parameterType="com.xiaomi.dao.vo.Good"><!-- goodid设置问题 -->
+ 	insert into good values(#{good_id},#{good_name},#{good_price},#{good_type},#{good_color},#{good_count},#{good_img},#{good_desc})
+ </insert>
+ 
+ <select id="selectAllGoods"  resultType="com.xiaomi.dao.vo.Good">
+ 	select * from good
+ </select>
+ 
+  <select id="selectdisName"  resultType="com.xiaomi.dao.vo.Good">
+ 	select * from good where good_id in (select min(good_id) from good group by good_name)
+ </select>
+ 
+ <select id="selectOneGood" parameterType="int" resultType="com.xiaomi.dao.vo.Good">
+ 	select * from good where good_id=#{good_id}
+ </select>
+ 
+ <select id="selectGoodByName" parameterType="String" resultType="com.xiaomi.dao.vo.Good">
+ 	select * from good where good_name=#{good_name}
+ </select>
+ 
+ <select id="selectdisType"  resultType="com.xiaomi.dao.vo.Good">
+ 	select * from good where good_id in (select min(good_id) from good where good_name=#{good_name} group by good_type) and good_name=#{good_name}
+ </select>
+ 
+ <select id="selectdisColor"  resultType="com.xiaomi.dao.vo.Good">
+ 	select * from good where good_id in (select min(good_id) from good where good_name=#{good_name} group by good_color) and good_name=#{good_name}
+ </select>
+ 
+ <select id="selectgoodid"  parameterType="String" resultType="com.xiaomi.dao.vo.Good">
+ 	select * from good where good_name=#{0} and good_type=#{1} and good_color=#{2}
+ </select>
+ 
+ <select id="searchGoodsByName" parameterType="String" resultType="com.xiaomi.dao.vo.Good">
+ 	 	 select * from good where  good_id in (select max(good_id) from good group by good_name) and good_name like concat('%',#{good_name},'%')
+ </select>
+
+ <update id="Updategoodnum"  parameterType="com.xiaomi.dao.vo.Good">
+ 	update good set good_count=#{good_count} where good_id=#{good_id}
+ </update>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaomi.dao.mapper.CartMapper">
+
+ <resultMap id="CartResultMap" type="com.xiaomi.dao.vo.Cart">
+  <id property="pre_id" column="pre_id"/>
+  <result property="good_num" column="good_num"/>
+  <result property="price" column="price"/>
+  <association property="g" javaType="com.xiaomi.dao.vo.Good">
+  <id property="good_id" column="good_id"/>
+  <result property="good_name" column="good_name"/>
+  <result property="good_price" column="good_price"/>
+  <result property="good_type" column="good_type"/>
+  <result property="good_color" column="good_color"/>
+  <result property="good_count" column="good_count"/>
+  <result property="good_img" column="good_img"/>
+  <result property="good_desc" column="good_desc"/>
+  </association>
+</resultMap>
+
+ <insert id="InsertCart" parameterType="com.xiaomi.dao.vo.Cart">
+ 	insert into cart values(#{pre_id},#{uid},#{good_id},#{good_num},#{status},#{price})
+ </insert>
+ 
+ <delete id="DeleteCart"  >
+ 	 delete from cart where pre_id=#{pre_id}
+ </delete>
+ 
+ <select id="selectOneCart" parameterType="int" resultType="com.xiaomi.dao.vo.Cart">
+ 	select * from cart where pre_id=#{pre_id}
+ </select>
+
+ <select id="selectCartByUid" parameterType="int" resultMap="CartResultMap">
+ 	select * from Cart c  left join Good g on c.good_id=g.good_id where c.uid= #{uid} AND c.status = 1
+ </select>
+ 
+<select id="selectCartBygood_id" parameterType="int" resultMap="CartResultMap">
+ 	select * from Cart where good_id = #{0} AND uid= #{1} AND status = 1
+ </select>
+ 
+ <update id="UpdateCart_status"  parameterType="com.xiaomi.dao.vo.Cart" ><!-- cart_id更新问题 -->
+ 	update cart set status=#{status} where pre_id=#{pre_id}
+ </update>
+  <update id="UpdateCart_num_price"  parameterType="com.xiaomi.dao.vo.Cart" ><!-- cart_id更新问题 -->
+ 	update cart set good_num=#{good_num},price=#{price} where pre_id=#{pre_id}
+ </update>
+</mapper>

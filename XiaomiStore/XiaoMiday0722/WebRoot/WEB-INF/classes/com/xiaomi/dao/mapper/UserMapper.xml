@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaomi.dao.mapper.UserMapper">
+ 
+ <insert id="InsertUser" parameterType="com.xiaomi.dao.vo.User"><!-- uid设置问题 -->
+ 	insert into user values(#{uid},#{username},#{password},#{phonenumber},#{address},#{hobby},#{sign})
+ </insert>
+ 
+ 
+ <update id="UpdateUser" parameterType="com.xiaomi.dao.vo.User"><!-- uid更新问题 -->
+ 	update user set username=#{username},password=#{password},phonenumber=#{phonenumber},address=#{address},hobby=#{hobby},sign=#{sign} where uid=#{uid}
+ </update>
+ 
+ <select id="selectOneUser" parameterType="int" resultType="com.xiaomi.dao.vo.User">
+ 	select * from user where uid=#{uid}
+ </select>
+ 
+ <select id="loginCheck" parameterType="int" resultType="com.xiaomi.dao.vo.User">
+ 	select * from user where username=#{username} and password=#{password}
+ </select>
+</mapper>
